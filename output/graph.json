@@ -1,123 +1,115 @@
 {
     "num_nodes": 8,
     "adjacency_list": {
-        "S7": [
+        "H": [
             {
-                "node": "S8",
+                "node": "F",
                 "weight": 1
             },
             {
-                "node": "S4",
-                "weight": 1
-            },
-            {
-                "node": "S6",
+                "node": "G",
                 "weight": 1
             }
         ],
-        "S5": [
+        "A": [
             {
-                "node": "S1",
+                "node": "E",
                 "weight": 1
             },
             {
-                "node": "S6",
+                "node": "B",
                 "weight": 1
             },
             {
-                "node": "S3",
-                "weight": 1
-            },
-            {
-                "node": "S2",
+                "node": "C",
                 "weight": 1
             }
         ],
-        "S3": [
+        "B": [
             {
-                "node": "S6",
+                "node": "D",
                 "weight": 1
             },
             {
-                "node": "S5",
+                "node": "A",
                 "weight": 1
             },
             {
-                "node": "S1",
+                "node": "C",
                 "weight": 1
             }
         ],
-        "S4": [
+        "D": [
             {
-                "node": "S7",
+                "node": "B",
                 "weight": 1
             },
             {
-                "node": "S6",
+                "node": "C",
                 "weight": 1
             },
             {
-                "node": "S2",
+                "node": "F",
                 "weight": 1
             }
         ],
-        "S6": [
+        "C": [
             {
-                "node": "S8",
+                "node": "A",
                 "weight": 1
             },
             {
-                "node": "S3",
+                "node": "E",
                 "weight": 1
             },
             {
-                "node": "S5",
+                "node": "B",
                 "weight": 1
             },
             {
-                "node": "S7",
-                "weight": 1
-            },
-            {
-                "node": "S4",
+                "node": "D",
                 "weight": 1
             }
         ],
-        "S8": [
+        "G": [
             {
-                "node": "S6",
+                "node": "E",
                 "weight": 1
             },
             {
-                "node": "S7",
+                "node": "H",
+                "weight": 1
+            },
+            {
+                "node": "F",
                 "weight": 1
             }
         ],
-        "S2": [
+        "F": [
             {
-                "node": "S1",
+                "node": "H",
                 "weight": 1
             },
             {
-                "node": "S4",
+                "node": "D",
                 "weight": 1
             },
             {
-                "node": "S5",
+                "node": "G",
                 "weight": 1
             }
         ],
-        "S1": [
+        "E": [
             {
-                "node": "S5",
+                "node": "G",
                 "weight": 1
             },
             {
-                "node": "S2",
+                "node": "A",
                 "weight": 1
             },
             {
-                "node": "S3",
+                "node": "C",
                 "weight": 1
             }
         ]

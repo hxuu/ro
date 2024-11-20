@@ -172,7 +172,7 @@ def save_to_json(adjacency_list, output_file='graph.json'):
     print(f"Graph data saved to {output_path}")
 
 def main():
-    FILEPATH = './media/test2.png'
+    FILEPATH = './media/test3.png'
 
     original_img = cv.imread(FILEPATH)
 
