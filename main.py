@@ -3,9 +3,16 @@
 import cv2 as cv
 import numpy as np
 import pytesseract
+import json
+import os
 
 OFFSET = 15
 MIN_RADIUS = 20
+OUTPUT_DIR = './output'
+
+# Ensure output directory exists
+if not os.path.exists(OUTPUT_DIR):
+    os.makedirs(OUTPUT_DIR)
 
 def img_show(img):
     """Display an image."""
@@ -100,7 +107,11 @@ def connect_nodes_with_lines(nodes, lines, img):
     """
     Connect nodes using the lines detected by HoughLinesP.
     Instead of using distances, connect nodes based on the proximity of line endpoints to node positions.
+    This function prints unique connections between nodes and adds them to the adjacency list.
     """
+    connected = set()  # Initialize a set to store unique connections
+    adjacency_list = {node: [] for node in nodes}  # Initialize adjacency list
+
     for line in lines:
         x1, y1, x2, y2 = line[0]
 
@@ -122,6 +133,15 @@ def connect_nodes_with_lines(nodes, lines, img):
                 min_dist_end = dist
                 closest_node_end = node_name
 
+        # Avoid self-loop (same node connected to itself)
+        if closest_node_start == closest_node_end:
+            continue
+
+        # Check if the connection is already added to prevent duplicates
+        connection = tuple(sorted([closest_node_start, closest_node_end]))
+        if connection in connected:
+            continue
+
         # Get the coordinates of the closest nodes
         start_node_coords = nodes[closest_node_start]
         end_node_coords = nodes[closest_node_end]
@@ -129,14 +149,30 @@ def connect_nodes_with_lines(nodes, lines, img):
         # Draw the line between the two closest nodes
         cv.line(img, start_node_coords, end_node_coords, (255, 0, 0), 2)  # Red line
 
-        # Optionally, print the node names and their coordinates for debugging
-        print(f"Connecting '{closest_node_start}' with '{closest_node_end}'")
+        # Store the connection in the adjacency list
+        adjacency_list[closest_node_start].append({"node": closest_node_end, "weight": 1})  # Default weight
+        adjacency_list[closest_node_end].append({"node": closest_node_start, "weight": 1})  # Default weight
 
-    return img
+        # Store the connection in a set (ensures no duplicates)
+        connected.add(connection)
 
+    return adjacency_list, img
+
+def save_to_json(adjacency_list, output_file='graph.json'):
+    """Save the adjacency list to a JSON file."""
+    output_path = os.path.join(OUTPUT_DIR, output_file)
+    data = {
+        "num_nodes": len(adjacency_list),
+        "adjacency_list": adjacency_list
+    }
+
+    with open(output_path, 'w') as f:
+        json.dump(data, f, indent=4)
+
+    print(f"Graph data saved to {output_path}")
 
 def main():
-    FILEPATH = './media/test3.png'
+    FILEPATH = './media/test2.png'
 
     original_img = cv.imread(FILEPATH)
 
@@ -153,12 +189,14 @@ def main():
     # Detect lines using Probabilistic Hough Line Transform
     lines, result_img = detect_lines(original_img)
 
-    # img_show(result_img)
-    # Connect nodes using detected lines
-    result_img = connect_nodes_with_lines(nodes, lines, result_img)
+    # Connect nodes using detected lines and get the adjacency list
+    adjacency_list, result_img_with_connections = connect_nodes_with_lines(nodes, lines, original_img)
 
     # Display the result image with connected nodes
-    img_show(result_img)
+    img_show(result_img_with_connections)
+
+    # Save the adjacency list and graph data to a JSON file
+    save_to_json(adjacency_list)
 
 if __name__ == '__main__':
     main()
