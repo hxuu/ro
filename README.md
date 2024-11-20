@@ -10,4 +10,5 @@ The project is written in python and will require the following dependecies:
 
 ```bash
 opencv-python
+pytesseract
 ```
