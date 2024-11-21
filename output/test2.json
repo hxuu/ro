@@ -1,0 +1,55 @@
+{ "num_nodes": 8, "adjacency_matrix": [
+        [ "", "S7", "S5", "S3", "S4", "S6", "S8", "S2", "S1" ],
+        [ "S7", 0, 0, 0, 1, 1, 1, 0, 0 ],
+        [ "S5", 0, 0, 1, 0, 1, 0, 1, 1 ],
+        [ "S3", 0, 1, 0, 0, 1, 0, 0, 1 ],
+        [ "S4", 1, 0, 0, 0, 1, 0, 1, 0 ],
+        [ "S6", 1, 1, 1, 1, 0, 1, 0, 0 ],
+        [ "S8", 1, 0, 0, 0, 1, 0, 0, 0 ],
+        [ "S2", 0, 1, 0, 1, 0, 0, 0, 1 ],
+        [ "S1", 0, 1, 1, 0, 0, 0, 1, 0 ]
+    ],
+    "adjacency_list": { "S7": [
+            { "node": "S8", "weight": 1 },
+            { "node": "S4", "weight": 1 },
+            { "node": "S6", "weight": 1 }
+        ],
+        "S5": [
+            { "node": "S1", "weight": 1 },
+            { "node": "S6", "weight": 1 },
+            { "node": "S3", "weight": 1 },
+            { "node": "S2", "weight": 1 }
+        ],
+        "S3": [
+            { "node": "S6", "weight": 1 },
+            { "node": "S5", "weight": 1 },
+            { "node": "S1", "weight": 1 }
+        ],
+        "S4": [
+            { "node": "S7", "weight": 1 },
+            { "node": "S6", "weight": 1 },
+            { "node": "S2", "weight": 1 }
+        ],
+        "S6": [
+            { "node": "S8", "weight": 1 },
+            { "node": "S3", "weight": 1 },
+            { "node": "S5", "weight": 1 },
+            { "node": "S7", "weight": 1 },
+            { "node": "S4", "weight": 1 }
+        ],
+        "S8": [
+            { "node": "S6", "weight": 1 },
+            { "node": "S7", "weight": 1 }
+        ],
+        "S2": [
+            { "node": "S1", "weight": 1 },
+            { "node": "S4", "weight": 1 },
+            { "node": "S5", "weight": 1 }
+        ],
+        "S1": [
+            { "node": "S5", "weight": 1 },
+            { "node": "S2", "weight": 1 },
+            { "node": "S3", "weight": 1 }
+        ]
+    }
+}

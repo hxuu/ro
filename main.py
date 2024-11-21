@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 
-import cv2 as cv
-import numpy as np
+import re
 import pytesseract
 import json
 import os
+import cv2 as cv
+import numpy as np
 
 OFFSET = 15
 MIN_RADIUS = 20
+FILEPATH = './media/test2.png'
 OUTPUT_DIR = './output'
 
 # Ensure output directory exists
@@ -106,11 +108,13 @@ def detect_lines(img):
 def connect_nodes_with_lines(nodes, lines, img):
     """
     Connect nodes using the lines detected by HoughLinesP.
-    Instead of using distances, connect nodes based on the proximity of line endpoints to node positions.
-    This function prints unique connections between nodes and adds them to the adjacency list.
+    Returns the adjacency matrix (with node names), adjacency list, and updated image.
     """
-    connected = set()  # Initialize a set to store unique connections
+    connected = set()  # Set to store unique connections
     adjacency_list = {node: [] for node in nodes}  # Initialize adjacency list
+    node_names = list(nodes.keys())  # List of node names for matrix indexing
+    num_nodes = len(node_names)
+    adjacency_matrix = np.zeros((num_nodes, num_nodes), dtype=int)  # Initialize adjacency matrix
 
     for line in lines:
         x1, y1, x2, y2 = line[0]
@@ -142,38 +146,115 @@ def connect_nodes_with_lines(nodes, lines, img):
         if connection in connected:
             continue
 
-        # Get the coordinates of the closest nodes
+        # Draw the line between the two closest nodes
         start_node_coords = nodes[closest_node_start]
         end_node_coords = nodes[closest_node_end]
-
-        # Draw the line between the two closest nodes
         cv.line(img, start_node_coords, end_node_coords, (255, 0, 0), 2)  # Red line
 
-        # Store the connection in the adjacency list
+        # Update adjacency list
         adjacency_list[closest_node_start].append({"node": closest_node_end, "weight": 1})  # Default weight
         adjacency_list[closest_node_end].append({"node": closest_node_start, "weight": 1})  # Default weight
 
-        # Store the connection in a set (ensures no duplicates)
+        # Update adjacency matrix
+        start_idx = node_names.index(closest_node_start)
+        end_idx = node_names.index(closest_node_end)
+        adjacency_matrix[start_idx][end_idx] = 1
+        adjacency_matrix[end_idx][start_idx] = 1
+
+        # Add the connection to the set
         connected.add(connection)
 
-    return adjacency_list, img
+    # Add node names to adjacency matrix
+    matrix_with_names = [[""] + node_names]  # Top row with column names
+    for i, node_name in enumerate(node_names):
+        matrix_with_names.append([node_name] + adjacency_matrix[i].tolist())  # Add row with row name
 
-def save_to_json(adjacency_list, output_file='graph.json'):
-    """Save the adjacency list to a JSON file."""
-    output_path = os.path.join(OUTPUT_DIR, output_file)
-    data = {
-        "num_nodes": len(adjacency_list),
+    return matrix_with_names, adjacency_list, img
+
+
+def pretty_json(data):
+    """
+    With the power of regex, remove the annoying \n inside an array in `le Jeson`
+    Our input (json output) looks like this:
+        {
+        |    "num_nodes": 8,
+        |    "adjacency_matrix": [
+        |        [
+        |            "",
+        |            "H",
+        |        ],
+        |        [
+        |            "E",
+        |            0,
+        |       ]
+        |    ],
+        |    "adjacency_list": {
+        |    |   "H": [
+        |    |       {
+        |    |           "node": "F",
+        |    |           "weight": 1
+        |    |       },
+        |    |       {
+        |    |           "node": "G",
+        |    |           "weight": 1
+        |    |       }
+        |    |   ],
+        |    }
+        }
+    We'll turn this boi into something more readable
+    """
+
+    # define the necessary matches
+    SBRACKET = r'\[\n\s+"'
+    CBRACKET = r'\{\n\s+'
+
+    C_INSIDE = r'",\n\s+'
+    C_INSIDE_LF = r'(")\n\s+\]'
+
+    D_INSIDEARR = r'(\d,)\n\s+'
+    D_INSIDEARR_LF = r'(\d)\n\s+\]'
+    D_INSIDEOBJ_LF = r'(\d)\n\s+\}'
+
+    # replace all occurrences
+    data = re.sub(SBRACKET, '[ "', data)
+    data = re.sub(C_INSIDE, '", ', data)
+    data = re.sub(D_INSIDEARR, r'\1 ', data)
+    data = re.sub(D_INSIDEARR_LF, r'\1 ]', data)
+    data = re.sub(C_INSIDE_LF, r'\1 ]', data)
+    data = re.sub(CBRACKET, '{ ', data)
+    data = re.sub(D_INSIDEOBJ_LF, r'\1 }', data)
+
+    return data
+
+
+def save_graph_data(matrix_with_names, adjacency_list, output_dir='./output'):
+    """
+    Save adjacency matrix, adjacency list, and number of nodes into one JSON file.
+    """
+    # Extract the node names from the first row of the matrix_with_names
+    node_names = matrix_with_names[0][1:]
+    num_nodes = len(node_names)
+
+    # Combine all data
+    graph_data = {
+        "num_nodes": num_nodes,
+        "adjacency_matrix": matrix_with_names,
         "adjacency_list": adjacency_list
     }
 
-    with open(output_path, 'w') as f:
-        json.dump(data, f, indent=4)
+    pretty_graph_data = pretty_json(json.dumps(graph_data, indent=4))
 
-    print(f"Graph data saved to {output_path}")
+    # Save to JSON file
+    filename = f"{FILEPATH.split('/')[-1].split('.')[0]}.json"
+    print(filename)
+    output_file_path = os.path.join(output_dir, filename)
+    with open(output_file_path, "w") as f:
+        f.write(pretty_graph_data)
+
+    print(f"Graph data saved to {output_file_path}")
+
 
 def main():
-    FILEPATH = './media/test3.png'
-
     original_img = cv.imread(FILEPATH)
 
     gray = cv.cvtColor(original_img, cv.COLOR_BGR2GRAY)
@@ -186,17 +267,14 @@ def main():
     for node_name, (x, y) in nodes.items():
         print(f"Node '{node_name}' found at coordinates: ({x}, {y})")
 
-    # Detect lines using Probabilistic Hough Line Transform
     lines, result_img = detect_lines(original_img)
 
-    # Connect nodes using detected lines and get the adjacency list
-    adjacency_list, result_img_with_connections = connect_nodes_with_lines(nodes, lines, original_img)
+    matrix_with_names, adjacency_list, result_img_with_connections = connect_nodes_with_lines(nodes, lines, original_img)
 
-    # Display the result image with connected nodes
     img_show(result_img_with_connections)
 
-    # Save the adjacency list and graph data to a JSON file
-    save_to_json(adjacency_list)
+    save_graph_data(matrix_with_names, adjacency_list)
+
 
 if __name__ == '__main__':
     main()
