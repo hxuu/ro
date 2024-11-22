@@ -9,7 +9,7 @@ import numpy as np
 
 OFFSET = 15
 MIN_RADIUS = 20
-FILEPATH = './media/test2.png'
+FILEPATH = './media/test4.png'
 OUTPUT_DIR = './output'
 
 # Ensure output directory exists
