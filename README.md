@@ -11,4 +11,7 @@ The project is written in python and will require the following dependecies:
 ```bash
 opencv-python
 pytesseract
+google-generativeai
 ```
+
+> You can pip install everything...
