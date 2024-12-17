@@ -52,7 +52,7 @@ def load_json(file_path):
     with open(file_path, 'r') as file:
         return json.load(file)
 
-file_path = '../output/test4.json'
+file_path = '../output/test3.json'
 data = load_json(file_path)
 
 # Extract adjacency matrix and list from the loaded JSON data
