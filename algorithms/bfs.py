@@ -14,54 +14,40 @@
         en cours de visite en les ajoutant `a la liste d’ordre de pr ́evisite.
         - L’usage de la structure de donn ́ee FIFO (une file).
 """
-import json
+from parser import parse_graph_data
 
 
-def bfs(start_vertex, adjacency_list, adjacency_matrix):
-    # Initialize tracking lists
-    marked = []  # Vertices that are fully visited (closed)
-    non_marked = [row[0] for row in adjacency_matrix[1:]]  # Extract node labels from the matrix
+def bfs(file_path, start_vertex):
+    adjacency_list, adjacency_matrix, num_nodes, headers = parse_graph_data(file_path)
 
-    # Initialize queues
-    queue = []  # FIFO queue to track vertices during traversal
-    visited = []  # Pre-visit order
+    # Initialisation
+    queue = []
+    pre_visit = []
+    post_visit = []
 
-    # Start BFS
-    queue.append(start_vertex)  # Add the starting vertex to the queue
-    marked.append(start_vertex)  # Mark the start vertex as visited
-    visited.append(start_vertex)  # Pre-visit order
+    queue.append(start_vertex)
 
     while queue:
-        # Dequeue the first element
-        current = queue.pop(0)
+        x = queue.pop(0)   # the head of the queue
+        pre_visit.append(x)  # mark node
 
-        # Explore all neighbors of the current vertex
-        for neighbor in adjacency_list.get(current, []):
-            node = neighbor["node"]
+        unmarked_succ = []
+        for w in adjacency_list[x]:
+            if w[0] not in pre_visit:
+                unmarked_succ.append(w[0])
 
-            # If the neighbor is not visited
-            if node not in marked:
-                queue.append(node)  # Add to queue
-                marked.append(node)  # Mark as visited
-                visited.append(node)  # Add to pre-visit order
+        for y in unmarked_succ:
+            pre_visit.append(y)
+            queue.append(y)
 
-    return marked, visited  # Pre-visit order
+        post_visit.append(x)
+
+    return pre_visit, post_visit, headers
 
 
-def load_json(file_path):
-    with open(file_path, 'r') as file:
-        return json.load(file)
-
-file_path = '../output/test3.json'
-data = load_json(file_path)
-
-# Extract adjacency matrix and list from the loaded JSON data
-adjacency_matrix = data["adjacency_matrix"]
-adjacency_list = data["adjacency_list"]
-
-# Example usage of the BFS function
-start_vertex = "S5"
-marked, visited_order = bfs(start_vertex, adjacency_list, adjacency_matrix)
-print("\nBFS Pre-visited Order:", visited_order)
-print("\nBFS Post-visited Order:", marked)
-
+if __name__ == "__main__":
+    file_path = "path-here"
+    pre_visit, post_visit, headers = bfs(file_path, "H")
+    print(f"Pre-Visit Order: {pre_visit}")
+    print(f"Post-Visit Order: {post_visit}")
+    print(f"Headers: {headers}")

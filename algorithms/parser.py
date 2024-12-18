@@ -1,5 +1,6 @@
 import json
 
+
 def parse_graph_data(file_path):
     """
     Parses graph data from a JSON file and returns the adjacency list, adjacency matrix,
@@ -37,6 +38,7 @@ def parse_graph_data(file_path):
 
     return adjacency_list, adjacency_matrix, num_nodes, headers
 
+
 # Exmple usage (if run as a script):
 if __name__ == "__main__":
     file_path = "./output/ape.json"
@@ -50,4 +52,3 @@ if __name__ == "__main__":
     print("\nAdjacency List:")
     for node, edges in adjacency_list.items():
         print(f"{node}: {edges}")
-

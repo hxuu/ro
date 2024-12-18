@@ -18,38 +18,38 @@
 from parser import parse_graph_data
 
 
-def dfs(file_path):
-    parse_graph_data(file_path)
-#     # Initialize tracking lists
-#     marked = []  # Vertices that are fully visited (closed)
-#     non_marked = [row[0] for row in adjacency_matrix[1:]]  # Extract node labels from the matrix
-#
-#     # Initialize queues
-#     queue = []  # FIFO queue to track vertices during traversal
-#     visited = []  # Pre-visit order
-#
-#     # Start BFS
-#     queue.append(start_vertex)  # Add the starting vertex to the queue
-#     marked.append(start_vertex)  # Mark the start vertex as visited
-#     visited.append(start_vertex)  # Pre-visit order
-#
-#     while queue:
-#         # Dequeue the first element
-#         current = queue.pop(0)
-#
-#         # Explore all neighbors of the current vertex
-#         for neighbor in adjacency_list.get(current, []):
-#             node = neighbor["node"]
-#
-#             # If the neighbor is not visited
-#             if node not in marked:
-#                 queue.append(node)  # Add to queue
-#                 marked.append(node)  # Mark as visited
-#                 visited.append(node)  # Add to pre-visit order
-#
-#     return marked, visited  # Pre-visit order
-#
-#
+def dfs(file_path, start_vertex):
+    adjacency_list, adjacency_matrix, num_nodes, headers = parse_graph_data(file_path)
+
+    # Initialisation
+    stack = []
+    pre_visit = []
+    post_visit = []
+
+    stack.append(start_vertex)
+    i = 0
+    while stack:
+        x = stack[-1]   # peek at the top of the stack
+        if x not in pre_visit:
+            pre_visit.append(x)
+
+        unmarked_succ = []
+        for w in adjacency_list[x]:
+            if w[0] not in pre_visit:
+                unmarked_succ.append(w[0])
+        if unmarked_succ:   # there exist an unmarked successor
+            y = unmarked_succ[0]
+            stack.append(y)
+        else:
+            post_visit.append(x)
+            stack.pop()
+
+    return pre_visit, post_visit, headers
+
 
 if __name__ == "__main__":
-    dfs("../output/ape.json")
+    file_path = "path-here"
+    pre_visit, post_visit, headers = dfs(file_path, "A")
+    print(f"Pre-Visit Order: {pre_visit}")
+    print(f"Post-Visit Order: {post_visit}")
+    print(f"Headers: {headers}")
