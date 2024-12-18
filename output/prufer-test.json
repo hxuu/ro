@@ -1,0 +1,46 @@
+{
+  "num_nodes": 8,
+  "adjacency_matrix": [
+    [ "", "1", "2", "3", "4", "5", "6", "7", "8" ],
+    [ "1", 0, 1, 0, 0, 0, 0, 1, 1 ],
+    [ "2", 1, 0, 0, 1, 0, 0, 0, 0 ],
+    [ "3", 0, 0, 0, 1, 0, 0, 0, 0 ],
+    [ "4", 0, 1, 1, 0, 1, 1, 0, 0 ],
+    [ "5", 0, 0, 0, 1, 0, 0, 0, 0 ],
+    [ "6", 0, 0, 0, 1, 0, 0, 0, 0 ],
+    [ "7", 1, 0, 0, 0, 0, 0, 0, 0 ],
+    [ "8", 1, 0, 0, 0, 0, 0, 0, 0 ]
+  ],
+  "adjacency_list": {
+    "1": [
+      { "node": "2", "weight": null },
+      { "node": "7", "weight": null },
+      { "node": "8", "weight": null }
+    ],
+    "2": [
+      { "node": "1", "weight": null },
+      { "node": "4", "weight": null }
+    ],
+    "3": [
+      { "node": "4", "weight": null }
+    ],
+    "4": [
+      { "node": "2", "weight": null },
+      { "node": "3", "weight": null },
+      { "node": "5", "weight": null },
+      { "node": "6", "weight": null }
+    ],
+    "5": [
+      { "node": "4", "weight": null }
+    ],
+    "6": [
+      { "node": "4", "weight": null }
+    ],
+    "7": [
+      { "node": "1", "weight": null }
+    ],
+    "8": [
+      { "node": "1", "weight": null }
+    ]
+  }
+}

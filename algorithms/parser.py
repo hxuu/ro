@@ -41,7 +41,7 @@ def parse_graph_data(file_path):
 
 # Exmple usage (if run as a script):
 if __name__ == "__main__":
-    file_path = "./output/ape.json"
+    file_path = "../output/ape.json"
     adjacency_list, adjacency_matrix, num_nodes, headers = parse_graph_data(file_path)
 
     print("Number of Nodes:", num_nodes)

@@ -36,7 +36,7 @@ model = genai.GenerativeModel(model_name="gemini-1.5-pro")
 # args = parser.parse_args()
 # print(args)
 # exit()
-image_path = "./output/ape.png"
+image_path = "./media/prufer-test.png"
 image = PIL.Image.open(image_path)
 
 # image_path = "https://raw.githubusercontent.com/hxuu/ro/refs/heads/main/media/test3.png"
@@ -46,42 +46,31 @@ image = PIL.Image.open(image_path)
 #     f.write(image.content)
 # exit()
 prompt = """
-Analyze the given graph image carefully and extract the following information with attention to detail:
+You are an expert in recognizing images of graphs used in graph theory module in college.
+You will be given the following tasks:
 
-1. **Vertices**:
-   - List all the unique vertex names (nodes) displayed in the image.
+1. **Task 1: Identify Nodes in the Image**
+   - Identify all nodes in the image, represented by circles.
+   - Recognize node labels (e.g., A, B, C OR 1, 2, 3 OR S1, S2 etc.) that are attached to the nodes.
 
-2. **Edges**:
-   - Specify if the graph is **directed** or **undirected**.
-   - For each edge, consider the direction
-   - Extract **weights** (if any) that are displayed next to or on top of the edges.
-   - Pay close attention to intersections or overlapping edges to avoid misattributions.
-   - Pay close attention to small arrows at the end of arcs if the graph is directed.
-   For example a graph can have multiple incoming arrows but one outgoing arrow.
+2. **Task 2: Detect Edges Between Nodes**
+   - Identify edges in the graph, which are lines and/or arrows connecting nodes.
+   - Detect if the graph is directed or undirected based on the presence of arrows on the edges.
+   - Pay extra attention to the intersections between the lines/arrows
 
-3. **Adjacency List**:
-   - Build an adjacency list representing the graph, showing neighbors for each vertex.
-   - Include weights if applicable.
+3. **Task 3: Parse Node Labels and Connectivities**
+   - For each node, parse its label and the labels of the nodes it is connected to by edges.
+   - If the graph is directed, record the direction of the edges.
 
-4. **Adjacency Matrix**:
-   - Construct the adjacency matrix for the graph.
-   - If weights exist, the matrix should display the weights; otherwise, use binary values (0 for no edge, 1 for an edge).
+4. **Task 4: Construct Adjacency List**
+   - For each node, create a list of its neighboring nodes (the nodes connected by edges).
+   - Include the direction of the edge if the graph is directed.
 
-5. **Graph Type**:
-   - Identify the graph type:
-     - Directed or undirected.
-     - Weighted or unweighted.
+5. **Task 5: Count the Number of Nodes**
+   - Count the total number of unique nodes in the graph based on the parsed labels.
 
-6. **Edge Directions**:
-   - Highlight all directed edges with arrows.
-   - Double-check all intersections or closely overlapping edges to determine correct edge directions.
-
-**Notes**:
-- Prioritize accuracy when identifying edges and directions, especially where multiple lines intersect or overlap.
-- Ensure all vertices and edges are accounted for, and no connections are missed.
-- If any ambiguity exists, describe it clearly.
-
-Return the result STRICTLY IN THE following format: ```
+6. **Task 6: Format the Results**
+    - Return the result STRICTLY IN THE following format: ```
 {
     "num_nodes": number-of-nodes,
     "adjacency_matrix": [
@@ -105,5 +94,32 @@ Return the result STRICTLY IN THE following format: ```
 # response = model.generate_content([{'mime_type':'image/png', 'data': base64.b64encode(image.content).decode('utf-8')}, prompt])
 response = model.generate_content([image, prompt])
 
-print(response)
+# print(response)
+import json
 
+def extract_graph_json(response, file_path):
+    # access the candidates from the response object
+    candidates = response._result.candidates
+
+    if not candidates:
+        raise ValueError("no candidates found in the response.")
+
+    # extract the text content from the first candidate
+    json_candidate = candidates[0].content.parts[0].text
+
+    # extract the json string between the backticks
+    json_start = json_candidate.find('```') + 3
+    json_end = json_candidate.rfind('```')
+    graph_json_str = json_candidate[json_start:json_end].strip()
+
+    # Debugging: print the extracted JSON string
+    print(f"Extracted JSON string: {graph_json_str}")
+
+    if not graph_json_str:
+        raise ValueError("Extracted JSON string is empty.")
+
+    with open(file_path, 'w') as f:
+        f.write(graph_json_str)
+
+
+graph_json = extract_graph_json(response,  "./output/prufer-test.json")
