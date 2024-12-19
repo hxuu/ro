@@ -56,6 +56,9 @@ def prim(graph_path):
 
         min_weight += cocyle_U[0][2]
 
+    print(f"F: {F}")
+    print(f"Minimum Weight: {min_weight}")
+
     return F, min_weight
 
 

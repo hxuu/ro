@@ -40,6 +40,9 @@ def prufer_encoding(tree_path):
             leaf_nodes.append(neighbor)
             leaf_nodes = deque(sorted(leaf_nodes))
 
+    print(f"Prufer Encoding: {P}")
+    print(f"Sorted Headers (Nodes): {sorted_headers}")
+
     return P, sorted(headers)
 
 
@@ -60,6 +63,9 @@ def prufer_decoding(P, sorted_headers):
 
     adjacency_list[sorted_headers[0]].append((sorted_headers[1], None))
     adjacency_list[sorted_headers[1]].append((sorted_headers[0], None))
+
+    print("Prufer Decoding:")
+    pprint.pprint(adjacency_list)
 
     return adjacency_list
 

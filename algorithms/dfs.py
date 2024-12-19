@@ -44,6 +44,10 @@ def dfs(file_path, start_vertex):
             post_visit.append(x)
             stack.pop()
 
+    print(f"Pre-Visit Order: {pre_visit}")
+    print(f"Post-Visit Order: {post_visit}")
+    print(f"Headers: {headers}")
+
     return pre_visit, post_visit, headers
 
 
