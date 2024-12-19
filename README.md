@@ -53,7 +53,7 @@ processing capabilities.
 
 ---
 
-Contribuion is ALWAYS OPEN!
+Contribution is **ALWAYS OPEN!**
 
 This project isn't finished yet and is part of my desire to help friends and students
 visualize what they learn and make sense of it programmatically outside the theoratical aspect.
