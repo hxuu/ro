@@ -11,7 +11,7 @@ Algorithme :
      Il ne reste que deux sommets dans l'arbre A.
 """
 import pprint
-from parser import parse_graph_data
+from utils.parser import parse_graph_data
 from collections import deque
 
 
@@ -74,4 +74,3 @@ if __name__ == "__main__":
     print("======================================")
     print("Prufer Decoding:")
     pprint.pprint(adjacency_list)
-

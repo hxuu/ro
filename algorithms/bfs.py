@@ -14,7 +14,7 @@
         en cours de visite en les ajoutant `a la liste d’ordre de pr ́evisite.
         - L’usage de la structure de donn ́ee FIFO (une file).
 """
-from parser import parse_graph_data
+from utils.parser import parse_graph_data
 
 
 def bfs(file_path, start_vertex):
@@ -46,7 +46,7 @@ def bfs(file_path, start_vertex):
 
 
 if __name__ == "__main__":
-    file_path = "path-here"
+    file_path = "../output/bfs-test.json"
     pre_visit, post_visit, headers = bfs(file_path, "H")
     print(f"Pre-Visit Order: {pre_visit}")
     print(f"Post-Visit Order: {post_visit}")

@@ -15,7 +15,7 @@
             Ouvrir y et l’ins ́erer dans la pile.
             Sinon : Fermer x et le supprimer de la pile.
 """
-from parser import parse_graph_data
+from utils.parser import parse_graph_data
 
 
 def dfs(file_path, start_vertex):
@@ -48,7 +48,7 @@ def dfs(file_path, start_vertex):
 
 
 if __name__ == "__main__":
-    file_path = "path-here"
+    file_path = "../output/dfs-test.json"
     pre_visit, post_visit, headers = dfs(file_path, "A")
     print(f"Pre-Visit Order: {pre_visit}")
     print(f"Post-Visit Order: {post_visit}")

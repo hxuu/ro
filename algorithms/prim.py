@@ -19,8 +19,7 @@ Sortie :
         - Ajouter le sommet s_j à U : U = U ∪ {s_j}.
     5. Fin.
 """
-from parser import parse_graph_data
-import random
+from utils.parser import parse_graph_data
 
 
 def co(U, adjacency_list):

@@ -16,6 +16,7 @@ def parse_graph_data(file_path):
             - num_nodes (int): The number of nodes in the graph.
             - headers (list): List of node names (headers).
     """
+
     # Read JSON content from a file
     with open(file_path, "r") as file:
         json_data = json.load(file)
@@ -41,7 +42,7 @@ def parse_graph_data(file_path):
 
 # Exmple usage (if run as a script):
 if __name__ == "__main__":
-    file_path = "../output/ape.json"
+    file_path = "../output/test.json"
     adjacency_list, adjacency_matrix, num_nodes, headers = parse_graph_data(file_path)
 
     print("Number of Nodes:", num_nodes)
