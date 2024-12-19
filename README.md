@@ -51,6 +51,10 @@ python main.py
 Make sure to replace the Gemini api key with Your own key to benefit from its image
 processing capabilities.
 
+Also, Gemini does its best at identifying graph images, but it is still very lacking.
+If you feel you haven't got a suitable output, you can mess with `legacy.py` at your own
+comfort OR access the generated `json` and correct it yourself.
+
 ---
 
 Contribution is **ALWAYS OPEN!**
