@@ -1,0 +1,37 @@
+{
+  "num_nodes": 5,
+  "adjacency_matrix": [
+    ["", "S1", "S2", "S3", "S4", "S5"],
+    ["S1", 0, 6, 4, 6, 4],
+    ["S2", 6, 0, 9, 0, 0],
+    ["S3", 4, 9, 0, 0, 2],
+    ["S4", 6, 0, 0, 0, 8],
+    ["S5", 4, 0, 2, 8, 0]
+  ],
+  "adjacency_list": {
+    "S1": [
+      {"node": "S2", "weight": 6},
+      {"node": "S3", "weight": 4},
+      {"node": "S4", "weight": 6},
+      {"node": "S5", "weight": 4}
+    ],
+    "S2": [
+      {"node": "S1", "weight": 6},
+      {"node": "S3", "weight": 9}
+    ],
+    "S3": [
+      {"node": "S1", "weight": 4},
+      {"node": "S2", "weight": 9},
+      {"node": "S5", "weight": 2}
+    ],
+    "S4": [
+      {"node": "S1", "weight": 6},
+      {"node": "S5", "weight": 8}
+    ],
+    "S5": [
+      {"node": "S1", "weight": 4},
+      {"node": "S3", "weight": 2},
+      {"node": "S4", "weight": 8}
+    ]
+  }
+}

@@ -1,3 +1,4 @@
+json
 {
   "num_nodes": 8,
   "adjacency_matrix": [
@@ -13,34 +14,34 @@
   ],
   "adjacency_list": {
     "1": [
-      { "node": "2", "weight": null },
-      { "node": "7", "weight": null },
-      { "node": "8", "weight": null }
+      { "node": "2", "weight": 1 },
+      { "node": "7", "weight": 1 },
+      { "node": "8", "weight": 1 }
     ],
     "2": [
-      { "node": "1", "weight": null },
-      { "node": "4", "weight": null }
+      { "node": "1", "weight": 1 },
+      { "node": "4", "weight": 1 }
     ],
     "3": [
-      { "node": "4", "weight": null }
+      { "node": "4", "weight": 1 }
     ],
     "4": [
-      { "node": "2", "weight": null },
-      { "node": "3", "weight": null },
-      { "node": "5", "weight": null },
-      { "node": "6", "weight": null }
+      { "node": "2", "weight": 1 },
+      { "node": "3", "weight": 1 },
+      { "node": "5", "weight": 1 },
+      { "node": "6", "weight": 1 }
     ],
     "5": [
-      { "node": "4", "weight": null }
+      { "node": "4", "weight": 1 }
     ],
     "6": [
-      { "node": "4", "weight": null }
+      { "node": "4", "weight": 1 }
     ],
     "7": [
-      { "node": "1", "weight": null }
+      { "node": "1", "weight": 1 }
     ],
     "8": [
-      { "node": "1", "weight": null }
+      { "node": "1", "weight": 1 }
     ]
   }
 }
