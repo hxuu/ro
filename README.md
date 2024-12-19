@@ -1,18 +1,61 @@
-# Graph Theory - ESI SBA (RO)
+# Graph Theory TP Solver - ESI SBA
 
-This project contains the following features:
+This project solves graph theory problems interactively by processing graph images or matrices. It walks through different graph algorithms, explaining each step along the way.
 
-1. process images/matrices of graphs + turn them into adequate data structure.
-2. implement algorithms seen in lectures.
-3. walk through the algorithms interactively + add explanation
+## Features
+- Processes graph images and matrices.
+- Implements common graph algorithms.
+- Provides interactive walkthroughs with explanations.
 
-The project is written in python and will require the following dependecies:
+## Requirements
+
+Create a virtual environment and install dependencies:
 
 ```bash
-opencv-python
-pytesseract
-google-generativeai
-tqdm
+pip install -r requirements.txt
 ```
 
-> You can pip install everything...
+## Usage
+
+Here is the basic help
+
+```bash
+➜ ./main.py -h
+usage: main.py [-h] -i INPUT -a ALGORITHM [-v VARIANT]
+
+A versatile tool for reading and solving graph-related problems.
+
+options:
+  -h, --help            show this help message and exit
+  -i INPUT, --input INPUT
+                        Path to the input file containing the graph data. Supports image formats.
+  -a ALGORITHM, --algorithm ALGORITHM
+                        The algorithm to be applied
+  -v VARIANT, --variant VARIANT
+                        Specific variant of the chosen algorithm (if applicable).
+```
+
+Run the main script to start the application:
+
+```bash
+python main.py
+```
+
+## Screenshots
+
+![screenshot](./media/screenshot.png)
+*Graph processing in action.*
+
+### Important note
+
+Make sure to replace the Gemini api key with Your own key to benefit from its image
+processing capabilities.
+
+---
+
+Contribuion is ALWAYS OPEN!
+
+This project isn't finished yet and is part of my desire to help friends and students
+visualize what they learn and make sense of it programmatically outside the theoratical aspect.
+If you feel you can contribute, fork the repo and make a PR with your change involved.
+
